@@ -8,13 +8,9 @@ buildscript {
 }
 
 apply plugin: 'com.android.library'
-apply plugin: 'maven-publish'
 apply plugin: 'maven'
 apply plugin: 'signing'
 
-
-version '1.0.0'
-group 'es.claucookie'
 
 android {
     compileSdkVersion 21
@@ -33,67 +29,96 @@ dependencies {
 }
 
 
-android.libraryVariants
-publishing {
-    publications {
-        maven(MavenPublication) {
-            artifact "build/libs/MiniEqualizer-${version}.aar"
-            artifactId 'library'
-        }
-    }
-}
-
 def isReleaseBuild() {
-    return version.contains("SNAPSHOT") == false
+        return VERSION_NAME.contains("SNAPSHOT") == false
 }
 
-signing {
-    required { isReleaseBuild() && gradle.taskGraph.hasTask("uploadArchives") }
-    sign configurations.archives
+def getReleaseRepositoryUrl() {
+        return hasProperty('RELEASE_REPOSITORY_URL') ? RELEASE_REPOSITORY_URL
+                        : "https://oss.sonatype.org/service/local/staging/deploy/maven2/"
 }
 
-uploadArchives {
-    configuration = configurations.archives
-    repositories.mavenDeployer {
-        beforeDeployment { MavenDeployment deployment -> signing.signPom(deployment) }
+def getSnapshotRepositoryUrl() {
+        return hasProperty('SNAPSHOT_REPOSITORY_URL') ? SNAPSHOT_REPOSITORY_URL
+                        : "https://oss.sonatype.org/content/repositories/snapshots/"
+}
 
-        repository(url: sonatypeRepo) {
-            authentication(userName: sonatypeUsername,
-                    password: sonatypePassword)
-        }
-        snapshotRepository(url: sonatypeSnapshotRepo) {
-            authentication(userName: sonatypeUsername,
-                    password: sonatypePassword)
-        }
+def getRepositoryUsername() {
+        return hasProperty('NEXUS_USERNAME') ? NEXUS_USERNAME : ""
+}
 
-        pom.project {
-            name 'Mini Equalizer for Android'
-            packaging 'aar'
-            description 'This library lets you add an animated mini equalizer similar to Play Music one.'
-            url 'https://github.com/claucookie/mini-equalizer-library-android'
-            artifactId 'library'
+def getRepositoryPassword() {
+        return hasProperty('NEXUS_PASSWORD') ? NEXUS_PASSWORD : ""
+}
 
-            scm {
-                url 'scm:git@github.com:claucookie/mini-equalizer-library-android.git'
-                connection 'scm:git@github.com:claucookie/mini-equalizer-library-android.git'
-                developerConnection 'scm:git@github.com:claucookie/mini-equalizer-library-android.git'
-            }
+afterEvaluate { project ->
+        uploadArchives {
+                repositories {
+                        mavenDeployer {
+                                beforeDeployment { MavenDeployment deployment -> signing.signPom(deployment) }
 
-            licenses {
-                license {
-                    name 'GPL license'
-                    url 'http://www.gnu.org/licenses/gpl-2.0.html'
-                    distribution 'repo'
+                                pom.groupId = GROUP
+                                pom.artifactId = POM_ARTIFACT_ID
+                                pom.version = VERSION_NAME
+
+                                repository(url: getReleaseRepositoryUrl()) {
+                                        authentication(userName: getRepositoryUsername(), password: getRepositoryPassword())
+                                }
+                                snapshotRepository(url: getSnapshotRepositoryUrl()) {
+                                        authentication(userName: getRepositoryUsername(), password: getRepositoryPassword())
+                                }
+
+                                pom.project {
+                                        name POM_NAME
+                                        packaging POM_PACKAGING
+                                        description POM_DESCRIPTION
+                                        url POM_URL
+
+                                        scm {
+                                                url POM_SCM_URL
+                                                connection POM_SCM_CONNECTION
+                                                developerConnection POM_SCM_DEV_CONNECTION
+                                        }
+
+                                        licenses {
+                                                license {
+                                                        name POM_LICENCE_NAME
+                                                        url POM_LICENCE_URL
+                                                        distribution POM_LICENCE_DIST
+                                                }
+                                        }
+
+                                        developers {
+                                                developer {
+                                                        id POM_DEVELOPER_ID
+                                                        name POM_DEVELOPER_NAME
+                                                }
+                                        }
+                                }
+                        }
                 }
-            }
-
-            developers {
-                developer {
-                    id 'claucookie'
-                    name 'Claudia Luque Fernández'
-                    email 'claudia.luque.fernandez@gmail.com'
-                }
-            }
         }
-    }
+
+        signing {
+                required { isReleaseBuild() && gradle.taskGraph.hasTask("uploadArchives") }
+                sign configurations.archives
+        }
+
+        //task androidJavadocs(type: Javadoc) {
+                //source = android.sourceSets.main.allJava
+        //}
+
+        //task androidJavadocsJar(type: Jar, dependsOn: androidJavadocs) {
+                //classifier = 'javadoc'
+                //from androidJavadocs.destinationDir
+        //}
+
+        task androidSourcesJar(type: Jar) {
+                classifier = 'sources'
+                from android.sourceSets.main.java.sourceFiles
+        }
+
+        artifacts {
+                archives androidSourcesJar
+        }
 }

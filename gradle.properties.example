@@ -1,9 +1,27 @@
+POM_NAME=Foo
+POM_ARTIFACT_ID=foo
+POM_PACKAGING=aar
+VERSION_NAME=1.0.0
+VERSION_CODE=1
+GROUP=com.bitbucket.johndoe
 
-sonatypeUsername=
-sonatypePassword=
-sonatypeRepo=https\://oss.sonatype.org/service/local/staging/deploy/maven2
-sonatypeSnapshotRepo=https\://oss.sonatype.org/content/repositories/snapshots
-signing.keyId=
-signing.password=
-signing.secretKeyRingFile=
-sdk.dir=
+POM_DESCRIPTION=Foo library
+POM_URL=https://bitbucket.org/johndoe/foo
+POM_SCM_URL=https://bitbucket.org/johndoe/foo
+POM_SCM_CONNECTION=scm:hg:https://bitbucket.org/johndoe/foo
+POM_SCM_DEV_CONNECTION=scm:hg:https://bitbucket.org/johndoe/foo
+POM_LICENCE_NAME=MIT License
+POM_LICENCE_URL=http://www.opensource.org/licenses/mit-license.php
+POM_LICENCE_DIST=repo
+POM_DEVELOPER_ID=johndoe
+POM_DEVELOPER_NAME=johndoe
+
+NEXUS_USERNAME=johndoe
+NEXUS_PASSWORD=1234567890
+
+SNAPSHOT_REPOSITORY_URL=https://oss.sonatype.org/content/repositories/snapshots
+RELEASE_REPOSITORY_URL=https://oss.sonatype.org/service/local/staging/deploy/maven2
+
+signing.keyId=YYYYYYYY
+signing.password=1234567890
+signing.secretKeyRingFile=/home/johndoe/.gnupg/secring.gpg
