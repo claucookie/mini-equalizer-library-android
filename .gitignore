@@ -24,3 +24,10 @@ proguard/
 
 # Log Files
 *.log
+
+# IntelliJ IDEA
+.idea/
+*/.idea/
+*.iml
+*/gen-gen-external-apklibs/
+*/gen-external-apklibs/
