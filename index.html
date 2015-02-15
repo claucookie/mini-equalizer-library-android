@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html>
+
+  <head>
+    <meta charset='utf-8'>
+    <meta http-equiv="X-UA-Compatible" content="chrome=1">
+    <meta name="description" content="Mini-equalizer-library-android : Mini equalizer for Android apps.">
+
+    <link rel="stylesheet" type="text/css" media="screen" href="stylesheets/stylesheet.css">
+
+    <title>Mini-equalizer-library-android</title>
+  </head>
+
+  <body>
+
+    <!-- HEADER -->
+    <div id="header_wrap" class="outer">
+        <header class="inner">
+          <a id="forkme_banner" href="https://github.com/claucookie/mini-equalizer-library-android">View on GitHub</a>
+
+          <h1 id="project_title">Mini-equalizer-library-android</h1>
+          <h2 id="project_tagline">Mini equalizer for Android apps.</h2>
+
+            <section id="downloads">
+              <a class="zip_download_link" href="https://github.com/claucookie/mini-equalizer-library-android/zipball/master">Download this project as a .zip file</a>
+              <a class="tar_download_link" href="https://github.com/claucookie/mini-equalizer-library-android/tarball/master">Download this project as a tar.gz file</a>
+            </section>
+        </header>
+    </div>
+
+    <!-- MAIN CONTENT -->
+    <div id="main_content_wrap" class="outer">
+      <section id="main_content" class="inner">
+        <h1>
+<a id="mini-equalizer-library-for-android" class="anchor" href="#mini-equalizer-library-for-android" aria-hidden="true"><span class="octicon octicon-link"></span></a>Mini Equalizer Library for Android</h1>
+
+<p>This Android Library project is created to let you use a animated equalizer inside your music related apps.</p>
+
+<p><strong>Supported Android versions</strong>: Android 4.0+</p>
+
+<h2>
+<a id="how-to-use-it" class="anchor" href="#how-to-use-it" aria-hidden="true"><span class="octicon octicon-link"></span></a>How to use it</h2>
+
+<p>Add this to your dependencies:</p>
+
+<div class="highlight highlight-groovy"><pre>compile <span class="pl-s1"><span class="pl-pds">'</span>com.github.claucookie.miniequalizer:library:1.0.0<span class="pl-pds">'</span></span></pre></div>
+
+<h2>
+<a id="layout" class="anchor" href="#layout" aria-hidden="true"><span class="octicon octicon-link"></span></a>Layout</h2>
+
+<div class="highlight highlight-xml"><pre>    &lt;<span class="pl-ent">es</span>.claucookie.miniequalizerlibrary.EqualizerView
+        <span class="pl-e">xmlns</span><span class="pl-e">:</span><span class="pl-e">custom</span>=<span class="pl-s1"><span class="pl-pds">"</span>http://schemas.android.com/apk/res-auto<span class="pl-pds">"</span></span>
+            <span class="pl-e">android</span><span class="pl-e">:</span><span class="pl-e">id</span>=<span class="pl-s1"><span class="pl-pds">"</span>@+id/equalizer_view<span class="pl-pds">"</span></span>
+            <span class="pl-e">android</span><span class="pl-e">:</span><span class="pl-e">layout_width</span>=<span class="pl-s1"><span class="pl-pds">"</span>30dp<span class="pl-pds">"</span></span>
+            <span class="pl-e">android</span><span class="pl-e">:</span><span class="pl-e">layout_height</span>=<span class="pl-s1"><span class="pl-pds">"</span>30dp<span class="pl-pds">"</span></span>
+            <span class="pl-e">custom</span><span class="pl-e">:</span><span class="pl-e">foregroundColor</span>=<span class="pl-s1"><span class="pl-pds">"</span>@color/link_text_material_light<span class="pl-pds">"</span></span>
+            <span class="pl-e">custom</span><span class="pl-e">:</span><span class="pl-e">animDuration</span>=<span class="pl-s1"><span class="pl-pds">"</span>3500<span class="pl-pds">"</span></span>/&gt;</pre></div>
+
+<h3>
+<a id="attributes" class="anchor" href="#attributes" aria-hidden="true"><span class="octicon octicon-link"></span></a>Attributes</h3>
+
+<p>There is some custom attributes you can adjust from the xml:</p>
+
+<ul>
+<li>foregroundColor : the equalizer bars color (default is black)</li>
+<li>animDuration : (millisecs) the animation follows a pattern and the number of loops is infinite. To set the duration of each loop, use this attribute.</li>
+</ul>
+
+<h2>
+<a id="activity" class="anchor" href="#activity" aria-hidden="true"><span class="octicon octicon-link"></span></a>Activity</h2>
+
+<h3>
+<a id="initialization--animation" class="anchor" href="#initialization--animation" aria-hidden="true"><span class="octicon octicon-link"></span></a>Initialization + animation</h3>
+
+<p>To start animating the equalizer you should add:</p>
+
+<div class="highlight highlight-java"><pre><span class="pl-stj">EqualizerView</span> equalizer <span class="pl-k">=</span> (<span class="pl-stj">EqualizerView</span>) findViewById(<span class="pl-stj">R</span><span class="pl-k">.</span>id<span class="pl-k">.</span>equalizer_view);
+equalizer<span class="pl-k">.</span>animateBars(); <span class="pl-c">// Whenever you want to tart the animation</span>
+equalizer<span class="pl-k">.</span>stopBars(); <span class="pl-c">// When you want equalizer stops animating</span></pre></div>
+
+<p>And... that's it!, so simple.</p>
+
+<p><img src="/screenshots/minieq.png" alt="Example of and app using the equalizer"></p>
+
+<h2>
+<a id="contribution" class="anchor" href="#contribution" aria-hidden="true"><span class="octicon octicon-link"></span></a>Contribution</h2>
+
+<p>Every idea, fork and suggestion is very welcome.</p>
+
+<h2>
+<a id="author" class="anchor" href="#author" aria-hidden="true"><span class="octicon octicon-link"></span></a>Author</h2>
+
+<p>Claudia Luque Fernández <a href="https://github.com/claucookie" class="user-mention">@claucookie</a></p>
+
+<h2>
+<a id="license" class="anchor" href="#license" aria-hidden="true"><span class="octicon octicon-link"></span></a>License</h2>
+
+<p><a href="http://opensource.org/licenses/MIT">http://opensource.org/licenses/MIT</a></p>
+      </section>
+    </div>
+
+    <!-- FOOTER  -->
+    <div id="footer_wrap" class="outer">
+      <footer class="inner">
+        <p class="copyright">Mini-equalizer-library-android maintained by <a href="https://github.com/claucookie">claucookie</a></p>
+        <p>Published with <a href="http://pages.github.com">GitHub Pages</a></p>
+      </footer>
+    </div>
+
+    
+
+  </body>
+</html>
