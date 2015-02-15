@@ -28,6 +28,7 @@ public class EqualizerView extends LinearLayout {
     Boolean animating = false;
 
     int foregroundColor;
+    int duration;
 
     public EqualizerView(Context context) {
         super(context);
@@ -53,7 +54,8 @@ public class EqualizerView extends LinearLayout {
                 0, 0);
 
         try {
-            foregroundColor = a.getColor(R.styleable.EqualizerView_foregroundColor, Color.BLACK);
+            foregroundColor = a.getInt(R.styleable.EqualizerView_foregroundColor, Color.BLACK);
+            duration = a.getInt(R.styleable.EqualizerView_animDuration, 4000);
 
         } finally {
             a.recycle();
@@ -114,7 +116,6 @@ public class EqualizerView extends LinearLayout {
     public void animateBars() {
         animating = true;
         if (playingSet == null) {
-            int duration = 3000;
             ObjectAnimator scaleYbar1 = ObjectAnimator.ofFloat(musicBar1, "scaleY", 0.2f, 0.8f, 0.1f, 0.1f, 0.3f, 0.1f, 0.2f, 0.8f, 0.7f, 0.2f, 0.4f, 0.9f, 0.7f, 0.6f, 0.1f, 0.3f, 0.1f, 0.4f, 0.1f, 0.8f, 0.7f, 0.9f, 0.5f, 0.6f, 0.3f, 0.1f);
             scaleYbar1.setRepeatCount(ValueAnimator.INFINITE);
             ObjectAnimator scaleYbar2 = ObjectAnimator.ofFloat(musicBar2, "scaleY", 0.2f, 0.5f, 1.0f, 0.5f, 0.3f, 0.1f, 0.2f, 0.3f, 0.5f, 0.1f, 0.6f, 0.5f, 0.3f, 0.7f, 0.8f, 0.9f, 0.3f, 0.1f, 0.5f, 0.3f, 0.6f, 1.0f, 0.6f, 0.7f, 0.4f, 0.1f);
@@ -168,8 +169,5 @@ public class EqualizerView extends LinearLayout {
         return animating;
     }
 
-    public void setAnimating(Boolean animating) {
-        this.animating = animating;
-    }
 
 }
