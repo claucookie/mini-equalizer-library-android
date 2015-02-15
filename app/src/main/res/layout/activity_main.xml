@@ -19,6 +19,6 @@
         android:layout_width="30dp"
         android:layout_height="30dp"
         custom:foregroundColor="@color/link_text_material_light"
-        custom:animDuration="4000"/>
+        custom:animDuration="5000"/>
 
 </LinearLayout>

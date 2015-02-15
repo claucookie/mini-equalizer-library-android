@@ -30,6 +30,7 @@ public class EqualizerView extends LinearLayout {
     int foregroundColor;
     int duration;
 
+
     public EqualizerView(Context context) {
         super(context);
         initViews();
@@ -55,7 +56,7 @@ public class EqualizerView extends LinearLayout {
 
         try {
             foregroundColor = a.getInt(R.styleable.EqualizerView_foregroundColor, Color.BLACK);
-            duration = a.getInt(R.styleable.EqualizerView_animDuration, 4000);
+            duration = a.getInt(R.styleable.EqualizerView_animDuration, 3000);
 
         } finally {
             a.recycle();
