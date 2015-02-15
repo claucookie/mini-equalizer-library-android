@@ -4,6 +4,8 @@ import android.animation.AnimatorSet;
 import android.animation.ObjectAnimator;
 import android.animation.ValueAnimator;
 import android.content.Context;
+import android.content.res.TypedArray;
+import android.graphics.Color;
 import android.os.Build;
 import android.util.AttributeSet;
 import android.view.LayoutInflater;
@@ -25,6 +27,8 @@ public class EqualizerView extends LinearLayout {
     AnimatorSet stopSet;
     Boolean animating = false;
 
+    int foregroundColor;
+
     public EqualizerView(Context context) {
         super(context);
         initViews();
@@ -32,12 +36,28 @@ public class EqualizerView extends LinearLayout {
 
     public EqualizerView(Context context, AttributeSet attrs) {
         super(context, attrs);
+        setAttrs(context, attrs);
         initViews();
     }
 
     public EqualizerView(Context context, AttributeSet attrs, int defStyle) {
         super(context, attrs, defStyle);
+        setAttrs(context, attrs);
         initViews();
+    }
+
+    private void setAttrs(Context context, AttributeSet attrs) {
+        TypedArray a = context.getTheme().obtainStyledAttributes(
+                attrs,
+                R.styleable.EqualizerView,
+                0, 0);
+
+        try {
+            foregroundColor = a.getColor(R.styleable.EqualizerView_foregroundColor, Color.BLACK);
+
+        } finally {
+            a.recycle();
+        }
     }
 
     private void initViews() {
@@ -45,6 +65,9 @@ public class EqualizerView extends LinearLayout {
         musicBar1 = findViewById(R.id.music_bar1);
         musicBar2 = findViewById(R.id.music_bar2);
         musicBar3 = findViewById(R.id.music_bar3);
+        musicBar1.setBackgroundColor(foregroundColor);
+        musicBar2.setBackgroundColor(foregroundColor);
+        musicBar3.setBackgroundColor(foregroundColor);
         setPivots();
     }
 

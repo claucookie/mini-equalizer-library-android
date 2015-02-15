@@ -1,0 +1,5 @@
+<resources>
+    <declare-styleable name="EqualizerView">
+        <attr name="foregroundColor" format="integer" />
+    </declare-styleable>
+</resources>
