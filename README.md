@@ -35,7 +35,7 @@ There is some custom attributes you can adjust from the xml:
 
 ## Activity
 
-### Initialization + animating
+### Initialization + animation
 
 To start animating the equalizer you should add:
 
