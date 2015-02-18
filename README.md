@@ -3,6 +3,7 @@ Mini Equalizer Library for Android
 
 This Android Library project is created to let you use a animated equalizer inside your music related apps.
 
+[![Android Arsenal](https://img.shields.io/badge/Android%20Arsenal-Mini%20Equalizer%20Library-brightgreen.svg?style=flat)](https://android-arsenal.com/details/1/1558)
 
 **Supported Android versions**: Android 4.0+
 
