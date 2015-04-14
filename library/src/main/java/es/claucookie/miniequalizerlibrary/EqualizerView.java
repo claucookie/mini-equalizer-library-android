@@ -1,8 +1,6 @@
 package es.claucookie.miniequalizerlibrary;
 
-import android.animation.AnimatorSet;
-import android.animation.ObjectAnimator;
-import android.animation.ValueAnimator;
+import android.annotation.TargetApi;
 import android.content.Context;
 import android.content.res.TypedArray;
 import android.graphics.Color;
@@ -11,11 +9,13 @@ import android.util.AttributeSet;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewTreeObserver;
-import android.view.animation.LinearInterpolator;
 import android.widget.LinearLayout;
+
+import com.nineoldandroids.view.ViewHelper;
 
 /**
  * Created by claucookie on 01/02/15.
+ * Modified by vsmaks on 15/04/15.
  */
 public class EqualizerView extends LinearLayout {
 
@@ -23,13 +23,13 @@ public class EqualizerView extends LinearLayout {
     View musicBar2;
     View musicBar3;
 
-    AnimatorSet playingSet;
-    AnimatorSet stopSet;
-    Boolean animating = false;
-
+    boolean animating = false;
     int foregroundColor;
     int duration;
 
+    // flag to prevent  infinite recursion when animateBars() or stopBars() called from a listener
+    private Boolean flag = false;
+    private OnAnimateBarsListener mOnAnimateBarsListener;
 
     public EqualizerView(Context context) {
         super(context);
@@ -42,8 +42,17 @@ public class EqualizerView extends LinearLayout {
         initViews();
     }
 
+    @TargetApi(Build.VERSION_CODES.HONEYCOMB)
     public EqualizerView(Context context, AttributeSet attrs, int defStyle) {
         super(context, attrs, defStyle);
+        setAttrs(context, attrs);
+        initViews();
+    }
+
+    @TargetApi(Build.VERSION_CODES.LOLLIPOP)
+    public EqualizerView(Context context, AttributeSet attrs, int defStyleAttr, int defStyleRes)
+    {
+        super(context, attrs, defStyleAttr, defStyleRes);
         setAttrs(context, attrs);
         initViews();
     }
@@ -68,107 +77,120 @@ public class EqualizerView extends LinearLayout {
         musicBar1 = findViewById(R.id.music_bar1);
         musicBar2 = findViewById(R.id.music_bar2);
         musicBar3 = findViewById(R.id.music_bar3);
-        musicBar1.setBackgroundColor(foregroundColor);
-        musicBar2.setBackgroundColor(foregroundColor);
-        musicBar3.setBackgroundColor(foregroundColor);
-        setPivots();
-    }
 
+        setForegroundColor(foregroundColor);
 
-    private void setPivots() {
-        musicBar1.getViewTreeObserver().addOnGlobalLayoutListener(new ViewTreeObserver.OnGlobalLayoutListener() {
-            @Override
-            public void onGlobalLayout() {
-                if (musicBar1.getHeight() > 0) {
-                    musicBar1.setPivotY(musicBar1.getHeight());
-                    if (Build.VERSION.SDK_INT >= 16) {
-                        musicBar1.getViewTreeObserver().removeOnGlobalLayoutListener(this);
-                    }
-                }
-
-            }
-        });
-        musicBar2.getViewTreeObserver().addOnGlobalLayoutListener(new ViewTreeObserver.OnGlobalLayoutListener() {
-            @Override
-            public void onGlobalLayout() {
-                if (musicBar2.getHeight() > 0) {
-                    musicBar2.setPivotY(musicBar2.getHeight());
-                    if (Build.VERSION.SDK_INT >= 16) {
-                        musicBar2.getViewTreeObserver().removeOnGlobalLayoutListener(this);
-                    }
-                }
-
-            }
-        });
-        musicBar3.getViewTreeObserver().addOnGlobalLayoutListener(new ViewTreeObserver.OnGlobalLayoutListener() {
-            @Override
-            public void onGlobalLayout() {
-                if (musicBar3.getHeight() > 0) {
-                    musicBar3.setPivotY(musicBar3.getHeight());
-                    if (Build.VERSION.SDK_INT >= 16) {
-                        musicBar3.getViewTreeObserver().removeOnGlobalLayoutListener(this);
-                    }
-                }
-
-            }
-        });
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.ICE_CREAM_SANDWICH) {
+            musicBar1.getViewTreeObserver().addOnGlobalLayoutListener(new GlobalLayoutListener(musicBar1));
+            musicBar2.getViewTreeObserver().addOnGlobalLayoutListener(new GlobalLayoutListener(musicBar2));
+            musicBar3.getViewTreeObserver().addOnGlobalLayoutListener(new GlobalLayoutListener(musicBar3));
+            setOnAnimateBarsListener(new DefaultAnimateBarsListener());
+        } else {
+            musicBar1.getViewTreeObserver().addOnGlobalLayoutListener(new SupportGlobalLayoutListener(musicBar1));
+            musicBar2.getViewTreeObserver().addOnGlobalLayoutListener(new SupportGlobalLayoutListener(musicBar2));
+            musicBar3.getViewTreeObserver().addOnGlobalLayoutListener(new SupportGlobalLayoutListener(musicBar3));
+            setOnAnimateBarsListener(new SupportAnimateBarsListener());
+        }
     }
 
     public void animateBars() {
-        animating = true;
-        if (playingSet == null) {
-            ObjectAnimator scaleYbar1 = ObjectAnimator.ofFloat(musicBar1, "scaleY", 0.2f, 0.8f, 0.1f, 0.1f, 0.3f, 0.1f, 0.2f, 0.8f, 0.7f, 0.2f, 0.4f, 0.9f, 0.7f, 0.6f, 0.1f, 0.3f, 0.1f, 0.4f, 0.1f, 0.8f, 0.7f, 0.9f, 0.5f, 0.6f, 0.3f, 0.1f);
-            scaleYbar1.setRepeatCount(ValueAnimator.INFINITE);
-            ObjectAnimator scaleYbar2 = ObjectAnimator.ofFloat(musicBar2, "scaleY", 0.2f, 0.5f, 1.0f, 0.5f, 0.3f, 0.1f, 0.2f, 0.3f, 0.5f, 0.1f, 0.6f, 0.5f, 0.3f, 0.7f, 0.8f, 0.9f, 0.3f, 0.1f, 0.5f, 0.3f, 0.6f, 1.0f, 0.6f, 0.7f, 0.4f, 0.1f);
-            scaleYbar2.setRepeatCount(ValueAnimator.INFINITE);
-            ObjectAnimator scaleYbar3 = ObjectAnimator.ofFloat(musicBar3, "scaleY", 0.6f, 0.5f, 1.0f, 0.6f, 0.5f, 1.0f, 0.6f, 0.5f, 1.0f, 0.5f, 0.6f, 0.7f, 0.2f, 0.3f, 0.1f, 0.5f, 0.4f, 0.6f, 0.7f, 0.1f, 0.4f, 0.3f, 0.1f, 0.4f, 0.3f, 0.7f);
-            scaleYbar3.setRepeatCount(ValueAnimator.INFINITE);
-
-            playingSet = new AnimatorSet();
-            playingSet.playTogether(scaleYbar2, scaleYbar3, scaleYbar1);
-            playingSet.setDuration(duration);
-            playingSet.setInterpolator(new LinearInterpolator());
-            playingSet.start();
-
-        } else if (Build.VERSION.SDK_INT < 19) {
-            if (!playingSet.isStarted()) {
-                playingSet.start();
+        if (!animating ) {
+            if (flag) {
+                return;
             }
-        } else {
-            if (playingSet.isPaused()) {
-                playingSet.resume();
+            flag = true;
+            if (mOnAnimateBarsListener != null) {
+                mOnAnimateBarsListener.onAnimateBars(this);
             }
+            flag = false;
         }
-
+        animating = true;
     }
 
     public void stopBars() {
-        animating = false;
-        if (playingSet != null && playingSet.isRunning() && playingSet.isStarted()) {
-            if (Build.VERSION.SDK_INT < 19) {
-                playingSet.end();
-            } else {
-                playingSet.pause();
+        if (animating ) {
+            if (flag) {
+                return;
             }
+            flag = true;
+            if (mOnAnimateBarsListener != null) {
+                mOnAnimateBarsListener.onStopBars(this);
+            }
+            flag = false;
         }
-
-        if (stopSet == null) {
-            // Animate stopping bars
-            ObjectAnimator scaleY1 = ObjectAnimator.ofFloat(musicBar1, "scaleY", 0.1f);
-            ObjectAnimator scaleY2 = ObjectAnimator.ofFloat(musicBar2, "scaleY", 0.1f);
-            ObjectAnimator scaleY3 = ObjectAnimator.ofFloat(musicBar3, "scaleY", 0.1f);
-            stopSet = new AnimatorSet();
-            stopSet.playTogether(scaleY3, scaleY2, scaleY1);
-            stopSet.setDuration(200);
-            stopSet.start();
-        } else if (!stopSet.isStarted()) {
-            stopSet.start();
-        }
+        animating = false;
     }
 
-    public Boolean isAnimating() {
+    public boolean isAnimating() {
         return animating;
     }
 
+    public void setOnAnimateBarsListener(OnAnimateBarsListener listener) {
+        mOnAnimateBarsListener = listener;
+    }
 
+    public void setForegroundColor(int color) {
+        foregroundColor = color;
+        musicBar1.setBackgroundColor(foregroundColor);
+        musicBar2.setBackgroundColor(foregroundColor);
+        musicBar3.setBackgroundColor(foregroundColor);
+    }
+
+    public int getForegroundColor() {
+        return foregroundColor;
+    }
+
+    public void setDuration(int milliseconds) {
+        duration = milliseconds;
+    }
+
+    public int getDuration() {
+        return duration;
+    }
+
+    public View[] getBars() {
+        return new View[]{musicBar1, musicBar2, musicBar3};
+    }
+
+
+    public interface OnAnimateBarsListener {
+        void onAnimateBars(EqualizerView view);
+        void onStopBars(EqualizerView view);
+    }
+
+
+    @TargetApi(Build.VERSION_CODES.HONEYCOMB)
+    public static class GlobalLayoutListener implements ViewTreeObserver.OnGlobalLayoutListener {
+        private View view;
+
+        public GlobalLayoutListener(View view) {
+            this.view = view;
+        }
+
+        @Override
+        public void onGlobalLayout() {
+            if (view.getHeight() > 0) {
+                view.setPivotY(view.getHeight());
+                if (Build.VERSION.SDK_INT >= 16) {
+                    view.getViewTreeObserver().removeOnGlobalLayoutListener(this);
+                }
+            }
+        }
+    }
+
+
+    public static class SupportGlobalLayoutListener implements ViewTreeObserver.OnGlobalLayoutListener {
+        private View view;
+
+        public SupportGlobalLayoutListener(View view) {
+            this.view = view;
+        }
+
+        @Override
+        public void onGlobalLayout() {
+            if (view.getHeight() > 0) {
+                ViewHelper.setPivotY(view, view.getHeight());
+            }
+        }
+    }
 }
