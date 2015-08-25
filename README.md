@@ -19,13 +19,13 @@ compile 'com.github.claucookie.miniequalizer:library:1.0.0'
 ## Layout
 
 ````xml
-    <es.claucookie.miniequalizerlibrary.EqualizerView
-        xmlns:custom="http://schemas.android.com/apk/res-auto"
-            android:id="@+id/equalizer_view"
-            android:layout_width="30dp"
-            android:layout_height="30dp"
-            custom:foregroundColor="@color/link_text_material_light"
-            custom:animDuration="3500"/>
+<es.claucookie.miniequalizerlibrary.EqualizerView
+    xmlns:custom="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/equalizer_view"
+    android:layout_width="30dp"
+    android:layout_height="30dp"
+    custom:foregroundColor="@color/link_text_material_light"
+    custom:animDuration="3500"/>
 ````
 
 ### Attributes
