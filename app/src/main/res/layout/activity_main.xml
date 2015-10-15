@@ -14,6 +14,18 @@
         android:text="Toggle equalizer"
         android:id="@+id/toggle_button"/>
 
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Toggle color"
+        android:id="@+id/toggle_color_button"/>
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Toggle duration"
+        android:id="@+id/toggle_duration_button"/>
+
+
     <es.claucookie.miniequalizerlibrary.EqualizerView
         android:id="@+id/equalizer_view"
         android:layout_width="30dp"

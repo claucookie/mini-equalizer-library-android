@@ -170,5 +170,14 @@ public class EqualizerView extends LinearLayout {
         return animating;
     }
 
+    public void setForegroundColor(int foregroundColor) {
+        this.foregroundColor = foregroundColor;
+        musicBar1.setBackgroundColor(foregroundColor);
+        musicBar2.setBackgroundColor(foregroundColor);
+        musicBar3.setBackgroundColor(foregroundColor);
+    }
 
+    public void setDuration(int duration) {
+        this.duration = duration;
+    }
 }

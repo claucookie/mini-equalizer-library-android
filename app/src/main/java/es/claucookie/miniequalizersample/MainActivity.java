@@ -14,6 +14,12 @@ public class MainActivity extends ActionBarActivity {
 
     EqualizerView equalizer;
     Button toggleButton;
+    private Button toggleColorButton;
+    private Integer[] colors = new Integer[]{R.color.black, R.color.blue, R.color.pink};
+    private int colorIndex = 0;
+    private Integer[] durations = new Integer[]{100, 1000, 3000};
+    private int durationIndex = 0;
+    private Button toggleDurationButton;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -22,6 +28,8 @@ public class MainActivity extends ActionBarActivity {
 
         equalizer = (EqualizerView) findViewById(R.id.equalizer_view);
         toggleButton = (Button) findViewById(R.id.toggle_button);
+        toggleColorButton = (Button) findViewById(R.id.toggle_color_button);
+        toggleDurationButton = (Button) findViewById(R.id.toggle_duration_button);
         showEqualizer();
         initButton();
     }
@@ -31,6 +39,26 @@ public class MainActivity extends ActionBarActivity {
             @Override
             public void onClick(View v) {
                 toggleEqualizer();
+            }
+        });
+        toggleColorButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                equalizer.setForegroundColor(getResources().getColor(colors[colorIndex]));
+                colorIndex++;
+                if (colorIndex >= colors.length) {
+                    colorIndex=0;
+                }
+            }
+        });
+        toggleDurationButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                equalizer.setDuration(durations[durationIndex]);
+                durationIndex++;
+                if (durationIndex >= durations.length) {
+                    durationIndex=0;
+                }
             }
         });
     }
