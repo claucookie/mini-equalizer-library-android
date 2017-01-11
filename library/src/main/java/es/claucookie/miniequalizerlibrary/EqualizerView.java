@@ -33,19 +33,19 @@ public class EqualizerView extends LinearLayout {
 
     public EqualizerView(Context context) {
         super(context);
-        initViews();
+        if (!isInEditMode()) initViews();
     }
 
     public EqualizerView(Context context, AttributeSet attrs) {
         super(context, attrs);
         setAttrs(context, attrs);
-        initViews();
+        if (!isInEditMode())  initViews();
     }
 
     public EqualizerView(Context context, AttributeSet attrs, int defStyle) {
         super(context, attrs, defStyle);
         setAttrs(context, attrs);
-        initViews();
+        if (!isInEditMode())  initViews();
     }
 
     private void setAttrs(Context context, AttributeSet attrs) {
