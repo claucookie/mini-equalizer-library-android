@@ -33,19 +33,19 @@ public class EqualizerView extends LinearLayout {
 
     public EqualizerView(Context context) {
         super(context);
-        initViews();
+        if (!isInEditMode()) initViews();
     }
 
     public EqualizerView(Context context, AttributeSet attrs) {
         super(context, attrs);
         setAttrs(context, attrs);
-        initViews();
+        if (!isInEditMode())  initViews();
     }
 
     public EqualizerView(Context context, AttributeSet attrs, int defStyle) {
         super(context, attrs, defStyle);
         setAttrs(context, attrs);
-        initViews();
+        if (!isInEditMode())  initViews();
     }
 
     private void setAttrs(Context context, AttributeSet attrs) {
@@ -170,5 +170,14 @@ public class EqualizerView extends LinearLayout {
         return animating;
     }
 
+    public void setForegroundColor(int foregroundColor) {
+        this.foregroundColor = foregroundColor;
+        musicBar1.setBackgroundColor(foregroundColor);
+        musicBar2.setBackgroundColor(foregroundColor);
+        musicBar3.setBackgroundColor(foregroundColor);
+    }
 
+    public void setDuration(int duration) {
+        this.duration = duration;
+    }
 }
