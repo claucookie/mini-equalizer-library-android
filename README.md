@@ -60,5 +60,6 @@ Claudia Luque Fernández @claucookie
 
 License
 -------
-http://opensource.org/licenses/MIT
+GNU General Public License version 2
+https://opensource.org/licenses/GPL-2.0
 
