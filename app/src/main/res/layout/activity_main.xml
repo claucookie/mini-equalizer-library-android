@@ -18,7 +18,7 @@
         android:id="@+id/equalizer_view"
         android:layout_width="30dp"
         android:layout_height="30dp"
-        custom:foregroundColor="@color/link_text_material_light"
+        custom:foregroundColor="@color/eq_color"
         custom:animDuration="5000"/>
 
 </LinearLayout>

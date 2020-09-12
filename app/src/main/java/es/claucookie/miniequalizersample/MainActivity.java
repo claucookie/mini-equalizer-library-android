@@ -1,16 +1,17 @@
 package es.claucookie.miniequalizersample;
 
-import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 
+import androidx.appcompat.app.AppCompatActivity;
+
 import es.claucookie.miniequalizerlibrary.EqualizerView;
 
 
-public class MainActivity extends ActionBarActivity {
+public class MainActivity extends AppCompatActivity {
 
     EqualizerView equalizer;
     Button toggleButton;
@@ -20,8 +21,8 @@ public class MainActivity extends ActionBarActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        equalizer = (EqualizerView) findViewById(R.id.equalizer_view);
-        toggleButton = (Button) findViewById(R.id.toggle_button);
+        equalizer = findViewById(R.id.equalizer_view);
+        toggleButton = findViewById(R.id.toggle_button);
         showEqualizer();
         initButton();
     }
